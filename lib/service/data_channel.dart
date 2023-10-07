@@ -10,6 +10,7 @@ class DataChannel {
           final String data = call.arguments["data"];
           onDataReceived(data);
         }
+        return "Hello from flutter";
       },
     );
   }
