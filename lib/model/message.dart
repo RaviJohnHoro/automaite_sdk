@@ -1,13 +1,21 @@
+import 'package:automaite_android_sdk/model/bot_response_model.dart';
+
 class Message {
   final bool isSender;
   final String? text;
-  final String? imageUrl;
+  final ProductList? product;
+  final List<String> possibleUserResponses;
+  final bool showLoader;
+  //final String? imageUrl;
   //final Function? onTap;
 
   const Message({
     this.isSender = false,
     this.text,
-    this.imageUrl,
+    this.product,
+    this.possibleUserResponses = const [],
+    this.showLoader = false,
+    //this.imageUrl,
     //this.onTap,
   });
 
@@ -15,7 +23,11 @@ class Message {
     return Message(
       isSender: map["isSender"],
       text: map["text"],
-      imageUrl: map["imageUrl"],
+      product: map["product"],
+      showLoader: map["showLoader"] ?? false,
+      possibleUserResponses: map["possibleUserResponses"] == null
+          ? []
+          : List<String>.from(map["possibleUserResponses"]!.map((x) => x)),
     );
   }
 
@@ -23,7 +35,9 @@ class Message {
     return {
       "isSender": isSender,
       "text": text,
-      "imageUrl": imageUrl,
+      "product": product?.toJson(),
+      "showLoader": showLoader,
+      "possibleUserResponses": possibleUserResponses.toString(),
     };
   }
 }
