@@ -1,9 +1,17 @@
 import 'package:automaite_android_sdk/provider/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class CartView extends StatelessWidget {
+class CartView extends StatefulWidget {
   const CartView({super.key});
+
+  @override
+  State<CartView> createState() => _CartViewState();
+}
+
+class _CartViewState extends State<CartView> {
+  var platform = const MethodChannel('data_channel');
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +58,25 @@ class CartView extends StatelessWidget {
                   },
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    try {
+                      await platform.invokeMethod('sendDataToAndroid', {
+                        "products":
+                            Provider.of<CartProvider>(context, listen: false)
+                                .products
+                                .map((product) => product.toJson())
+                                .toList(),
+                      });
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Failed: ${e.toString()}',
+                          ),
+                        ),
+                      );
+                    }
+                  },
                   child: const Text(
                     'Go to cart',
                   ),

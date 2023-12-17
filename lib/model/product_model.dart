@@ -24,4 +24,14 @@ class ProductModel {
       quantity: quantity ?? this.quantity,
     );
   }
+
+  // Convert to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'productId': productId,
+      'variantId': variantId,
+      'variantName': variantName,
+      'quantity': quantity,
+    };
+  }
 }

@@ -5,6 +5,7 @@ import 'package:automaite_android_sdk/controller/chat_controller.dart';
 import 'package:automaite_android_sdk/model/message.dart';
 import 'package:automaite_android_sdk/provider/cart_provider.dart';
 import 'package:automaite_android_sdk/provider/chat_provider.dart';
+import 'package:automaite_android_sdk/service/data_channel.dart';
 import 'package:automaite_android_sdk/service/socket_services.dart';
 import 'package:automaite_android_sdk/utils/constant.dart';
 import 'package:automaite_android_sdk/utils/helper_functions.dart';
@@ -46,20 +47,20 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
 
     initialise();
-    // DataChannel.receiveData(
-    //   (data) {
-    //     if (data != null) {
-    //       log("received data is: $data");
-    //       ScaffoldMessenger.of(context).showSnackBar(
-    //         SnackBar(
-    //           content: Text(
-    //             "Received data: $data",
-    //           ),
-    //         ),
-    //       );
-    //     }
-    //   },
-    // );
+    DataChannel.receiveData(
+      (data) {
+        if (data != null) {
+          log("received data is: $data");
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                "Received data: $data",
+              ),
+            ),
+          );
+        }
+      },
+    );
   }
 
   void _handleSubmitted(String text) async {
