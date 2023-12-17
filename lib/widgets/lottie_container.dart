@@ -7,8 +7,8 @@ class LottieContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 20,
-      width: 50,
+      height: 40,
+      width: 70,
       child: Lottie.asset(
         'assets/loader.json',
       ),

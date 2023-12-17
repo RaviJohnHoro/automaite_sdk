@@ -3,10 +3,12 @@ import 'dart:developer';
 
 import 'package:automaite_android_sdk/controller/chat_controller.dart';
 import 'package:automaite_android_sdk/model/message.dart';
+import 'package:automaite_android_sdk/provider/cart_provider.dart';
 import 'package:automaite_android_sdk/provider/chat_provider.dart';
 import 'package:automaite_android_sdk/service/socket_services.dart';
 import 'package:automaite_android_sdk/utils/constant.dart';
 import 'package:automaite_android_sdk/utils/helper_functions.dart';
+import 'package:automaite_android_sdk/views/cart_view.dart';
 import 'package:automaite_android_sdk/widgets/chat_input_bar.dart';
 import 'package:automaite_android_sdk/widgets/chat_message.dart';
 import 'package:flutter/material.dart';
@@ -167,6 +169,51 @@ class _ChatScreenState extends State<ChatScreen> {
                                       color: Colors.white,
                                     ),
                                   ),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: IconButton(
+                                      icon: Stack(
+                                        children: [
+                                          const Icon(
+                                            Icons.shopping_cart,
+                                            color: Colors.white,
+                                          ),
+                                          Positioned(
+                                            right: 0,
+                                            top: -5,
+                                            child: Consumer<CartProvider>(
+                                                builder: (context, cartProvider,
+                                                    child) {
+                                              return Container(
+                                                padding:
+                                                    const EdgeInsets.all(2),
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.red,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Text(
+                                                  cartProvider
+                                                      .getQuantity()
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                          ),
+                                        ],
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) => const CartView(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -176,7 +223,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   builder: (context, chatProvider, child) {
                                 var messages = chatProvider.messages;
                                 return ListView.builder(
-                                  reverse: true,
+                                  //reverse: true,
                                   itemCount: messages.length,
                                   itemBuilder: (context, index) {
                                     var message = messages[index];

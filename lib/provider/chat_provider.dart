@@ -35,15 +35,9 @@ class ChatProvider extends ChangeNotifier {
     log("${botResponse.productList != null} ${botResponse.productList?.isNotEmpty}");
     messages.removeWhere((e) => e.showLoader);
 
-    if (botResponse.possibleUserResponses != null &&
-        botResponse.possibleUserResponses!.isNotEmpty) {
-      _messages.add(
-        Message(
-          isSender: true,
-          possibleUserResponses: botResponse.possibleUserResponses ?? [],
-        ),
-      );
-    }
+    _messages.add(
+      Message(text: botResponse.message),
+    );
 
     if (botResponse.productList != null &&
         botResponse.productList!.isNotEmpty) {
@@ -57,20 +51,30 @@ class ChatProvider extends ChangeNotifier {
         );
       }
     }
-    _messages.add(
-      Message(text: botResponse.message),
-    );
+
+    if (botResponse.possibleUserResponses != null &&
+        botResponse.possibleUserResponses!.isNotEmpty) {
+      _messages.add(
+        Message(
+          isSender: true,
+          possibleUserResponses: botResponse.possibleUserResponses ?? [],
+        ),
+      );
+    }
+
     //else {
     //   log("here");
     //   _messages = [Message(text: botResponse.message)];
     // }
-    messages.insertAll(0, _messages);
+    //messages.insertAll(0, _messages);
+    messages.addAll(_messages);
     //saveMessage();
     notifyListeners();
   }
 
   insertMessage(Message message) {
-    messages.insert(0, message);
+    //messages.insert(0, message);
+    messages.add(message);
     notifyListeners();
   }
 
