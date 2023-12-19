@@ -109,7 +109,11 @@ class _ProductContainerState extends State<ProductContainer> {
                     ),
                   )
                   .toList(),
-              onChanged: (value) {},
+              onChanged: (value) {
+                if (value != null) {
+                  setVarient(value);
+                }
+              },
             ),
           ),
           // Wrap(
